@@ -64,7 +64,6 @@ namespace TestCoreAnimation
 					overlay = new FooOverlay ();
 					overlay.SetExcludedFromWindowsMenu (true);
 					overlay.StyleMask = NSWindowStyle.Borderless;
-					overlay.Level = NSWindowLevel.Status;
 					var childButton = new NSTextField () {
 						StringValue = "FOOBAR",
 						Frame = new RectangleF (10, 10, 150, 30),
