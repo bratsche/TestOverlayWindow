@@ -10,6 +10,21 @@ using MonoMac.CoreGraphics;
 
 namespace TestCoreAnimation
 {
+	public class FooOverlay : NSWindow
+	{
+		public override bool CanBecomeKeyWindow {
+			get {
+				return true;
+			}
+		}
+
+		public override bool CanBecomeMainWindow {
+			get {
+				return false;
+			}
+		}
+	}
+
 	public partial class MainWindow : MonoMac.AppKit.NSWindow
 	{
 		NSWindow overlay;
@@ -34,25 +49,26 @@ namespace TestCoreAnimation
 			var mainView = new NSView () {
 				Frame = ContentView.Frame
 			};
-			var button = new NSButton () {
+			var button = new NSTextField () {
 				StringValue = "Click Me",
 				Frame = new System.Drawing.RectangleF (40, 40, 90, 30),
-				BezelStyle = NSBezelStyle.Rounded
+				//BezelStyle = NSBezelStyle.Rounded
 			};
 			mainView.AddSubview (button);
 			button.Activated += (object sender, EventArgs e) => {
-				NSButton nsbutton = (NSButton)sender;
+				NSTextField nsbutton = (NSTextField)sender;
 				var win = nsbutton.Window;
 
 				if (overlay == null)
 				{
-					overlay = new NSWindow ();
+					overlay = new FooOverlay ();
 					overlay.SetExcludedFromWindowsMenu (true);
 					overlay.StyleMask = NSWindowStyle.Borderless;
-					var childButton = new NSButton () {
-						Title = "FOOBAR",
+					overlay.Level = NSWindowLevel.Status;
+					var childButton = new NSTextField () {
+						StringValue = "FOOBAR",
 						Frame = new RectangleF (10, 10, 150, 30),
-						BezelStyle = NSBezelStyle.Rounded
+						//BezelStyle = NSBezelStyle.Rounded
 					};
 					overlay.ContentView.AddSubview (childButton);
 
